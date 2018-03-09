@@ -59,11 +59,26 @@ namespace FormalLang5sem
 
             Console.WriteLine("Please enter output file path or press Enter to output to console");
             var outputFilePath = Console.ReadLine();
-            if (!System.IO.File.Exists(outputFilePath) && outputFilePath != "")
+
+            GenerateResult(graph, grammar, outputFilePath);
+        }
+
+
+        private static void GenerateResult(string graph, string grammar, string outputPath)
+        {
+            ISolver solver = new MatrixSolver();
+            var result = solver.Solve(graph, grammar);
+            
+            if (outputPath != "")
             {
-                Console.WriteLine("Invalid path or file does not exist");
-                return;
+                System.IO.File.WriteAllText(outputPath, result);
             }
+            else
+            {
+                Console.Write(result);
+            }
+
+            Console.WriteLine();
         }
     }
 }
