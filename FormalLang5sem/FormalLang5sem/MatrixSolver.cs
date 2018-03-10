@@ -38,6 +38,8 @@ namespace FormalLang5sem
             //var j = AntlrParserAdapter<int>.GetParser().Parse(graph);
             //QuickGraph.IGraph<int, int>()
 
+            var m = graph.GenerateAdjacencyMatrix();
+
             return null; // resultTest;
         }
     }
