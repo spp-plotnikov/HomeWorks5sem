@@ -64,8 +64,17 @@ namespace FormalLang5sem
         }
 
 
-        private static void GenerateResult(string graph, string grammar, string outputPath)
+        private static void GenerateResult(string graphText, string grammarText, string outputPath)
         {
+            var graph = new Graph(graphText);
+            var grammar = new Grammar(grammarText);
+
+            if (!graph.IsParsable.Value || !grammar.IsParsable.Value)
+            {
+                InformingAboutParsingErrors(graph, grammar);
+                return;
+            }
+
             ISolver solver = new MatrixSolver();
             var result = solver.Solve(graph, grammar);
             
@@ -78,6 +87,22 @@ namespace FormalLang5sem
                 Console.Write(result);
             }
 
+            Console.WriteLine();
+        }
+
+
+        private static void InformingAboutParsingErrors(Graph graph, Grammar grammar)
+        {
+            Console.WriteLine("Cannot parse file");
+            if (!graph.IsParsable.Value)
+            {
+                Console.WriteLine("Graph parsing errors: " + graph.ParsingErrors);
+            }
+
+            if (!grammar.IsParsable.Value)
+            {
+                Console.WriteLine("Grammar parsing errors: " + grammar.ParsingErrors);
+            }
             Console.WriteLine();
         }
     }

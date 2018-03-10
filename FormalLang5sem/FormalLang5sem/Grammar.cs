@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FormalLang5sem
 {
-    class Graph
+    class Grammar
     {
-        /// <param name="dotCode"> Graph formated as code in Graphviz/DOT language </param>
-        public Graph(string dotCode)
+        /// <param name="dotCode"> Grammar formated as code in Graphviz/DOT language </param>
+        public Grammar(string dotCode)
         {
             IsParsable = ParseDotCode(dotCode);
         }
@@ -31,7 +31,7 @@ namespace FormalLang5sem
         {
             try
             {
-                parsingResult = DotParser.parse(dotCode);
+                // parsing ...
             }
             catch (Exception e)
             {
@@ -40,8 +40,5 @@ namespace FormalLang5sem
             }
             return true;
         }
-
-
-        private GraphData.GraphData parsingResult;
     }
 }

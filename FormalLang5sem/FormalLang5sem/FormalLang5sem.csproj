@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grammar.cs" />
+    <Compile Include="Graph.cs" />
     <Compile Include="ISolver.cs" />
     <Compile Include="MatrixSolver.cs" />
     <Compile Include="Program.cs" />

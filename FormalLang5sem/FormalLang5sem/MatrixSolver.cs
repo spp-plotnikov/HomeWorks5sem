@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Graphviz4Net.Dot.AntlrParser;
-//using QuickGraph.Graphviz.Dot;
-
 
 
 namespace FormalLang5sem
 {
     class MatrixSolver : ISolver
     {
-        public string Solve(string graph, string grammar)
+        public string Solve(Graph graph, Grammar grammar)
         {
-            var a = DotParser.parse(graph);
+            //var a = DotParser.parse(graph);
 
             //int count = a.Nodes.Count();
             //var gg = a.Nodes.ElementAt(0).Value;
@@ -38,7 +35,7 @@ namespace FormalLang5sem
             //QuickGraph.dotp
             //u.
 
-            var j = AntlrParserAdapter<int>.GetParser().Parse(graph);
+            //var j = AntlrParserAdapter<int>.GetParser().Parse(graph);
             //QuickGraph.IGraph<int, int>()
 
             return null; // resultTest;
