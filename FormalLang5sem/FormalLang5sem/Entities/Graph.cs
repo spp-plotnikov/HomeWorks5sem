@@ -53,9 +53,12 @@ namespace FormalLang5sem
             int size = parsingResult.Nodes.Count;
             var matrix = new List<string>[size, size];
 
-            for (int i = 0, j = 0; i < size && j < size; i++, j++)
+            for (int i = 0; i < size; i++)
             {
-                matrix[i, j] = new List<string>();
+                for (int j = 0; j < size; j++)
+                {
+                    matrix[i, j] = new List<string>();
+                }
             }
 
             foreach (var edge in parsingResult.Edges)

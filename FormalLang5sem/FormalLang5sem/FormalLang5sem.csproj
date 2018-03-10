@@ -64,10 +64,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Grammar.cs" />
-    <Compile Include="Graph.cs" />
-    <Compile Include="ISolver.cs" />
-    <Compile Include="MatrixSolver.cs" />
+    <Compile Include="Entities\Grammar.cs" />
+    <Compile Include="Entities\Graph.cs" />
+    <Compile Include="Interfaces\ISolver.cs" />
+    <Compile Include="Solvers\MatrixSolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
