@@ -52,7 +52,7 @@ namespace FormalLang5sem
 
 
         /// <summary>
-        /// true if can parse dot
+        /// true if can parse 
         /// </summary>
         public bool? IsParsable;
 
