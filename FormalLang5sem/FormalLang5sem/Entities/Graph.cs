@@ -31,7 +31,7 @@ namespace FormalLang5sem
         {
             try
             {
-                parsingResult = DotParser.parse(dotCode);
+                _parsingResult = DotParser.parse(dotCode);
             }
             catch (Exception e)
             {
@@ -42,7 +42,7 @@ namespace FormalLang5sem
         }
 
 
-        private GraphData.GraphData parsingResult;
+        private GraphData.GraphData _parsingResult;
 
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace FormalLang5sem
         /// </summary>
         public List<string>[,] GenerateAdjacencyMatrix()
         {
-            int size = parsingResult.Nodes.Count;
+            int size = _parsingResult.Nodes.Count;
             var matrix = new List<string>[size, size];
 
             for (int i = 0; i < size; i++)
@@ -61,7 +61,7 @@ namespace FormalLang5sem
                 }
             }
 
-            foreach (var edge in parsingResult.Edges)
+            foreach (var edge in _parsingResult.Edges)
             {
                 var i = int.Parse(edge.Key.Item1);
                 var j = int.Parse(edge.Key.Item2);
