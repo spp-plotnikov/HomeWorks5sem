@@ -12,6 +12,9 @@ namespace FormalLang5sem
         public string Solve(Graph graph, Grammar grammar)
         {
             var matrix = graph.GenerateAdjacencyMatrix();
+            var productionRules = grammar.Content.Value.productionRules;
+
+            
 
             return null; 
         }

@@ -84,8 +84,7 @@ namespace FormalLang5sem
 
         public struct GrammarContent
         {
-            char[] nonterminals;
-            char[] terminals;
+            public Dictionary<string, List<string[]>> productionRules;
         }
 
 
@@ -94,7 +93,30 @@ namespace FormalLang5sem
 
         private static GrammarContent ParseSimpleFormat(string simpleCode)
         {
-            return new GrammarContent();
+            var parsingResult = new GrammarContent();
+            parsingResult.productionRules = new Dictionary<string, List<string[]>>();
+
+            var lines = simpleCode.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var line in lines)
+            {
+                var parts = line.Split(':');
+                var leftHandSide = parts[0].Trim();
+                var rightHandSide = parts[1].Split(new string[] { " ", "\t", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+
+
+                if (!parsingResult.productionRules.Keys.Contains(leftHandSide))
+                {
+                    parsingResult.productionRules.Add(leftHandSide, new List<string[]> { rightHandSide });
+                }
+                else
+                {
+                    parsingResult.productionRules[leftHandSide].Add(rightHandSide);
+                }
+            }
+
+            return parsingResult;
         }
     }
 }
