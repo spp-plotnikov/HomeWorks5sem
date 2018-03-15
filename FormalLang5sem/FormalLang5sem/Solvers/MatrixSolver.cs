@@ -17,45 +17,27 @@ namespace FormalLang5sem
             _result = string.Empty;
 
             AddNonterminalsToMatrix();
+            TransitiveClosure();
 
-
-            for (int k = 0; k < _matrixSize; k++)
-            {
-                for (int i = 0; i < _matrixSize; i++)
-                {
-                    for (int j = 0; j < _matrixSize; j++)
-                    {
-                        foreach (var label1 in _matrix[i, k].ToList())
-                        {
-                            foreach (var label2 in _matrix[k, j].ToList())
-                            {
-                                foreach (var productionRule in _productionRules)
-                                {
-                                    foreach (var rightHandSide in productionRule.Value)
-                                    if (AreArraysOfStringsEqual(new string[] { label1, label2}, rightHandSide))
-                                    {
-                                        _matrix[i, j].Add(productionRule.Key);
-                                        _result += i.ToString() + ',' + productionRule.Key + ',' + j.ToString() + Environment.NewLine;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            //
-            //var a = new List<string[]>();
-            //a.Add(new string[] { "aa", "ab" });
-            //a.Contains()
-            //bool test = a[0] == (new string[] { "aa", "ab" });
-            //
             return _result; 
         }
 
 
         private static bool AreArraysOfStringsEqual(string[] array1, string[] array2)
         {
-            return array1.Except(array2).Count() == 0 && array2.Except(array1).Count() == 0;
+            if (array1.Count() != array2.Count())
+            {
+                return false;
+            }
+
+            for (int i = 0; i < array1.Count(); i++)
+            {
+                if (!array1[i].Equals(array2[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
 
@@ -82,8 +64,42 @@ namespace FormalLang5sem
                                     if (terminalSymbol == rightHandSide.First())
                                     {
                                         _matrix[i, j].Add(productionRule.Key);
-                                        //_result += i.ToString() + ',' + productionRule.Key + ',' 
-                                         //       + j.ToString() + Environment.NewLine;
+                                        _result += i.ToString() + ',' + productionRule.Key + ',' 
+                                                + j.ToString() + Environment.NewLine;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /// <todo>
+        /// TODO: make refactoring: make code more readable
+        /// </todo>
+        private void TransitiveClosure()
+        {
+            for (int k = 0; k < _matrixSize; k++)
+            {
+                for (int i = 0; i < _matrixSize; i++)
+                {
+                    for (int j = 0; j < _matrixSize; j++)
+                    {
+                        foreach (var label1 in _matrix[i, k].ToList())
+                        {
+                            foreach (var label2 in _matrix[k, j].ToList())
+                            {
+                                foreach (var productionRule in _productionRules)
+                                {
+                                    foreach (var rightHandSide in productionRule.Value)
+                                    {
+                                        if (AreArraysOfStringsEqual(new string[] { label1, label2 }, rightHandSide))
+                                        {
+                                            _matrix[i, j].Add(productionRule.Key);
+                                            _result += i.ToString() + ',' + productionRule.Key + ',' + j.ToString() + Environment.NewLine;
+                                        }
                                     }
                                 }
                             }
