@@ -19,23 +19,23 @@ namespace FormalLang5sem
             AddNonterminalsToMatrix();
 
 
-            for (int k = 0; k < n; k++)
+            for (int k = 0; k < _matrixSize; k++)
             {
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < _matrixSize; i++)
                 {
-                    for (int j = 0; j < n; j++)
+                    for (int j = 0; j < _matrixSize; j++)
                     {
-                        foreach (var label1 in matrix[i, k])
+                        foreach (var label1 in _matrix[i, k].ToList())
                         {
-                            foreach (var label2 in matrix[k, j])
+                            foreach (var label2 in _matrix[k, j].ToList())
                             {
-                                foreach (var productionRule in productionRules)
+                                foreach (var productionRule in _productionRules)
                                 {
                                     foreach (var rightHandSide in productionRule.Value)
                                     if (AreArraysOfStringsEqual(new string[] { label1, label2}, rightHandSide))
                                     {
-                                        matrix[i, j].Add(productionRule.Key);
-                                        result += i.ToString() + ',' + productionRule.Key + ',' + j.ToString() + Environment.NewLine;
+                                        _matrix[i, j].Add(productionRule.Key);
+                                        _result += i.ToString() + ',' + productionRule.Key + ',' + j.ToString() + Environment.NewLine;
                                     }
                                 }
                             }
@@ -49,14 +49,14 @@ namespace FormalLang5sem
             //a.Contains()
             //bool test = a[0] == (new string[] { "aa", "ab" });
             //
-            return result; 
+            return _result; 
         }
 
 
-        //private static bool AreArraysOfStringsEqual(string[] array1, string[] array2)
-        //{
-        //    return array1.Except(array2).Count() == 0 && array2.Except(array1).Count() == 0;
-        //}
+        private static bool AreArraysOfStringsEqual(string[] array1, string[] array2)
+        {
+            return array1.Except(array2).Count() == 0 && array2.Except(array1).Count() == 0;
+        }
 
 
         private string _result;
@@ -77,13 +77,13 @@ namespace FormalLang5sem
                         {
                             if (rightHandSide.Count() == 1)  // this means that right hand side is only one terminal symbol
                             {
-                                foreach (var terminalSymbol in _matrix[i, j])
+                                foreach (var terminalSymbol in _matrix[i, j].ToList())
                                 {
                                     if (terminalSymbol == rightHandSide.First())
                                     {
                                         _matrix[i, j].Add(productionRule.Key);
-                                        _result += i.ToString() + ',' + productionRule.Key + ',' 
-                                                + j.ToString() + Environment.NewLine;
+                                        //_result += i.ToString() + ',' + productionRule.Key + ',' 
+                                         //       + j.ToString() + Environment.NewLine;
                                     }
                                 }
                             }
