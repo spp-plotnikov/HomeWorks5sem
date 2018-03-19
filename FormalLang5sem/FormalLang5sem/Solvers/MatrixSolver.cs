@@ -17,7 +17,7 @@ namespace FormalLang5sem
             _result = string.Empty;
 
             AddNonterminalsToMatrix();
-            TransitiveClosure();
+            FloydWarshall();
 
             return _result; 
         }
@@ -76,10 +76,7 @@ namespace FormalLang5sem
         }
 
 
-        /// <todo>
-        /// TODO: make refactoring: make code more readable
-        /// </todo>
-        private void TransitiveClosure()
+        private void FloydWarshall()
         {
             for (int k = 0; k < _matrixSize; k++)
             {
@@ -87,26 +84,40 @@ namespace FormalLang5sem
                 {
                     for (int j = 0; j < _matrixSize; j++)
                     {
-                        foreach (var label1 in _matrix[i, k].ToList())
+                        if (TransitiveClosure(i, j, k))
                         {
-                            foreach (var label2 in _matrix[k, j].ToList())
+                            FloydWarshall();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private bool TransitiveClosure(int i, int j, int k)
+        {
+            foreach (var label1 in _matrix[i, k].ToList())
+            {
+                foreach (var label2 in _matrix[k, j].ToList())
+                {
+                    foreach (var productionRule in _productionRules)
+                    {
+                        foreach (var rightHandSide in productionRule.Value)
+                        {
+                            if (AreArraysOfStringsEqual(new string[] { label1, label2 }, rightHandSide) 
+                                && !_matrix[i, j].Contains(productionRule.Key))
                             {
-                                foreach (var productionRule in _productionRules)
-                                {
-                                    foreach (var rightHandSide in productionRule.Value)
-                                    {
-                                        if (AreArraysOfStringsEqual(new string[] { label1, label2 }, rightHandSide))
-                                        {
-                                            _matrix[i, j].Add(productionRule.Key);
-                                            _result += i.ToString() + ',' + productionRule.Key + ',' + j.ToString() + Environment.NewLine;
-                                        }
-                                    }
-                                }
+                                _matrix[i, j].Add(productionRule.Key);
+                                _result += i.ToString() + ',' + productionRule.Key + ',' + j.ToString() + Environment.NewLine;
+                                TransitiveClosure(i, j, k);
+                                return true;
                             }
                         }
                     }
                 }
             }
+            return false;
         }
     }
 }
