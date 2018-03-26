@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FormalLang5sem.Interfaces;
+using FormalLang5sem.Entities;
+using FormalLang5sem.Solvers;
 
 
 namespace FormalLang5sem
@@ -75,7 +78,8 @@ namespace FormalLang5sem
                 return;
             }
 
-            ISolver solver = new MatrixSolver();
+            //ISolver solver = new MatrixSolver();
+            ISolver solver = new GLLSolver();
             var result = solver.Solve(graph, grammar);
             
             if (outputPath != "")

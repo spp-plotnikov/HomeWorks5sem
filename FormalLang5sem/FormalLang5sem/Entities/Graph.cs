@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FormalLang5sem
+namespace FormalLang5sem.Entities
 {
     class Graph
     {
@@ -72,6 +72,33 @@ namespace FormalLang5sem
                 }
             }
             return matrix;
+        }
+
+
+        /// <summary>
+        /// returns dictionary where Key is start node and Value is list of pairs (label, final node)
+        /// </summary>
+        public Dictionary<int, List<(string, int)>> GenerateAdjacencyList()
+        {
+            var result = new Dictionary<int, List<(string, int)>>();
+
+            foreach (var edge in _parsingResult.Edges)
+            {
+                var i = int.Parse(edge.Key.Item1);
+                var j = int.Parse(edge.Key.Item2);
+
+                if (!result.ContainsKey(i))
+                {
+                    result.Add(i, new List<(string, int)>());
+                }
+
+                foreach (var value in edge.Value)
+                {
+                    result[i].Add((value["label"], j));
+                }
+            }
+
+            return result;
         }
     }
 }

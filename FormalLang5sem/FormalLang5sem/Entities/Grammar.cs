@@ -7,7 +7,7 @@ using Graphviz4Net.Dot.AntlrParser;
 using Graphviz4Net.Dot;
 
 
-namespace FormalLang5sem
+namespace FormalLang5sem.Entities
 {
     class Grammar
     {

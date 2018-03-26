@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FormalLang5sem.Entities;
 
-namespace FormalLang5sem
+
+namespace FormalLang5sem.Interfaces
 {
     interface ISolver
     {
