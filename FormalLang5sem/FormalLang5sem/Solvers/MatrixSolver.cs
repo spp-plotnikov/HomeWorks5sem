@@ -15,7 +15,7 @@ namespace FormalLang5sem.Solvers
         {
             _matrix = graph.GenerateAdjacencyMatrix();
             _productionRules = grammar.Content.Value.productionRules;
-            _matrixSize = _matrix.GetLength(0);
+            _matrixSize = graph.CountOfNodes;
             _result = string.Empty;
 
             AddNonterminalsToMatrix();

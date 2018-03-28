@@ -70,7 +70,7 @@ namespace FormalLang5sem
         private static void GenerateResult(string graphText, string grammarText, string outputPath)
         {
             var graph = new Graph(graphText);
-            var grammar = Grammar.FromSimpleFormat(grammarText);
+            var grammar = Grammar.FromDot(grammarText);
 
             if (!graph.IsParsable.Value || !grammar.IsParsable.Value)
             {

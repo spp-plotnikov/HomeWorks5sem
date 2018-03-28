@@ -100,5 +100,11 @@ namespace FormalLang5sem.Entities
 
             return result;
         }
+
+
+        /// <summary>
+        /// number of vertices in graph
+        /// </summary>
+        public int CountOfNodes => _parsingResult.Nodes.Count;
     }
 }

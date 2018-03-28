@@ -68,7 +68,8 @@ namespace FormalLang5sem.Entities
         {
             try
             {
-                _parsingResult = AntlrParserAdapter<string>.GetParser().Parse(dotCode);
+                _parsingResult = AntlrParserAdapter<int>.GetParser().Parse(dotCode);
+                RepresentAsGraph();
             }
             catch (Exception e)
             {
@@ -79,7 +80,33 @@ namespace FormalLang5sem.Entities
         }
 
 
-        private DotGraph<string> _parsingResult;
+        private DotGraph<int> _parsingResult;
+
+
+        /// <summary>
+        /// if grammar represented as graph
+        /// </summary>
+        public Dictionary<int, List<(string, int)>> AdjacencyList;
+
+
+        private void RepresentAsGraph()
+        {
+            AdjacencyList = new Dictionary<int, List<(string, int)>>();
+
+            foreach (var edge in _parsingResult.VerticesEdges)
+            {
+                var i = edge.Source.Id;
+                var j = edge.Destination.Id;
+                var label = edge.Label;
+
+                if (!AdjacencyList.ContainsKey(i))
+                {
+                    AdjacencyList.Add(i, new List<(string, int)>());
+                }
+
+                AdjacencyList[i].Add((label, j));
+            }
+        }
 
 
         public struct GrammarContent

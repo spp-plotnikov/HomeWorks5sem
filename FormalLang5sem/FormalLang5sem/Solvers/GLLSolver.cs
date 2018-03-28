@@ -16,7 +16,7 @@ namespace FormalLang5sem.Solvers
     {
         public string Solve(Graph graph, Grammar grammar)
         {
-            var gr = graph.GenerateAdjacencyList();
+            var gr = grammar.AdjacencyList;
             return null;
         }
     }
