@@ -115,14 +115,22 @@ namespace FormalLang5sem.Entities
         {
             get
             {
-                var nodes = new List<int>();
+                if (_nodes != null)
+                {
+                    return _nodes;
+                }
+
+                _nodes = new List<int>();
                 foreach (var node in _parsingResult.Nodes)
                 {
                     var i = int.Parse(node.Key);
-                    nodes.Add(i);
+                    _nodes.Add(i);
                 }
-                return nodes;
+                return _nodes;
             }
         }
+
+
+        private List<int> _nodes;
     }
 }
