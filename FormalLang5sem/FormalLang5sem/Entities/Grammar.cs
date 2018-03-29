@@ -9,6 +9,9 @@ using Graphviz4Net.Dot;
 
 namespace FormalLang5sem.Entities
 {
+    /// <todo>
+    /// make refactoring: split into two classes GrammarDot and GrammarSimpleFormat
+    /// </todo>
     class Grammar
     {
         /// <param name="dotCode"> Grammar formated as code in Graphviz/DOT language </param>
@@ -145,5 +148,33 @@ namespace FormalLang5sem.Entities
 
             return parsingResult;
         }
+
+
+        /// <summary>
+        /// If grammar represented as graph. Contains Key (start vertex) and Value (nonterminal)
+        /// </summary>
+        public Dictionary<int, string> StartNodesOfNonterminals
+        {
+            get
+            {
+                if (_startNodesOfNonterminals != null)
+                {
+                    return _startNodesOfNonterminals;
+                }
+
+                _startNodesOfNonterminals = new Dictionary<int, string>();
+                foreach (var node in _parsingResult.Vertices)
+                {
+                    if (node.Attributes.ContainsKey("color") && node.Attributes["color"] == "green")
+                    {
+                        _startNodesOfNonterminals.Add(node.Id, node.Attributes["label"]);
+                    }
+                }
+                return _startNodesOfNonterminals;
+            }
+        }
+
+
+        private Dictionary<int, string> _startNodesOfNonterminals;
     }
 }
