@@ -34,6 +34,10 @@ namespace FormalLang5sem.Entities
             => _vertices.IndexOf((nonterminal, positionInGraph));
 
 
+        public bool ContainsVertex(string nonterminal, int positionInGraph) 
+            => _vertices.Contains((nonterminal, positionInGraph));
+
+
         public void AddEdge(int vertexPosition1, int positionInGrammar, int vertexPosition2)
         {
             if (!_edges.ContainsKey(vertexPosition1))

@@ -18,21 +18,28 @@ namespace FormalLang5sem.Solvers
         {
             foreach (var automationState in graph.Nodes)
             {
+                foreach (var nonterminalStart in grammar.StartNodesOfNonterminals.Keys)
+                {
+                    var nonterminal = grammar.StartNodesOfNonterminals[nonterminalStart];
 
+                    _gss.AddVertex(nonterminal, automationState);
+                    var positionInGss = _gss.GetPositionOfVertex(nonterminal, automationState);
+                    _workList.Push((automationState, nonterminalStart, positionInGss));
+                }
             }
             
-
-            //GLL();
+            GLL();
             return null;
         }
 
 
         private Stack<(int, int, int)> _workList = new Stack<(int, int, int)>();
+        private GraphStructuredStack _gss = new GraphStructuredStack();
 
 
         private void GLL()
         {
-            //foreach (var automationState in )
+            
         }
     }
 }
