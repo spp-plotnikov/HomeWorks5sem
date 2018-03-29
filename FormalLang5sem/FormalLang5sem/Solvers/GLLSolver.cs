@@ -34,12 +34,30 @@ namespace FormalLang5sem.Solvers
 
 
         private Stack<(int, int, int)> _workList = new Stack<(int, int, int)>();
+        private HashSet<(int, int, int)> _history = new HashSet<(int, int, int)>();
         private GraphStructuredStack _gss = new GraphStructuredStack();
 
 
         private void GLL()
         {
-            
+            while (_workList.Count != 0)
+            {
+                var configuration = _workList.Pop();
+
+                if (_history.Contains(configuration))
+                {
+                    continue;   //  to avoid looping
+                }
+                _history.Add(configuration);
+
+                HandleConfiguration(configuration);
+            }
+        }
+
+
+        private void HandleConfiguration((int automationPos, int grammarPos, int gssPos) config)
+        {
+
         }
     }
 }
