@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Entities\Grammar.cs" />
     <Compile Include="Entities\Graph.cs" />
+    <Compile Include="Entities\GraphStructuredStack.cs" />
     <Compile Include="Interfaces\ISolver.cs" />
     <Compile Include="Solvers\GLLSolver.cs" />
     <Compile Include="Solvers\MatrixSolver.cs" />

@@ -106,5 +106,23 @@ namespace FormalLang5sem.Entities
         /// number of vertices in graph
         /// </summary>
         public int CountOfNodes => _parsingResult.Nodes.Count;
+
+
+        /// <summary>
+        /// all vertices in graph
+        /// </summary>
+        public List<int> Nodes
+        {
+            get
+            {
+                var nodes = new List<int>();
+                foreach (var node in _parsingResult.Nodes)
+                {
+                    var i = int.Parse(node.Key);
+                    nodes.Add(i);
+                }
+                return nodes;
+            }
+        }
     }
 }

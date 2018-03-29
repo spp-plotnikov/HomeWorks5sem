@@ -12,6 +12,13 @@ namespace FormalLang5sem.Entities
         private Dictionary<int, List<(int, int)>> _edges;
 
 
+        public GraphStructuredStack()
+        {
+            _vertices = new List<(string, int)>();
+            _edges = new Dictionary<int, List<(int, int)>>();
+        }
+
+
         public void AddVertex(string nonterminal, int positionInGraph)
         {
             var tuple = (nonterminal, positionInGraph);

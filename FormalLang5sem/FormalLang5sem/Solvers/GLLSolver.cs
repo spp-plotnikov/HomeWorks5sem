@@ -16,8 +16,21 @@ namespace FormalLang5sem.Solvers
     {
         public string Solve(Graph graph, Grammar grammar)
         {
-            var gr = grammar.AdjacencyList;
+            foreach (var automationState in graph.Nodes)
+            {
+
+            }
+            //GLL();
             return null;
+        }
+
+
+        private Stack<(int, int, int)> _workList = new Stack<(int, int, int)>();
+
+
+        private void GLL()
+        {
+            //foreach (var automationState in )
         }
     }
 }
