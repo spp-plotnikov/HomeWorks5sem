@@ -13,7 +13,7 @@ namespace FormalLang5sem.Solvers
     {
         public string Solve(Graph graph, Grammar grammar)
         {
-            _matrix = graph.GenerateAdjacencyMatrix();
+            _matrix = graph.AdjacencyMatrix;
             _productionRules = grammar.Content.Value.productionRules;
             _matrixSize = graph.CountOfNodes;
             _result = string.Empty;

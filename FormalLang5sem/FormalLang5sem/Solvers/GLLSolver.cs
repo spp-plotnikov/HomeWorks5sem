@@ -67,7 +67,11 @@ namespace FormalLang5sem.Solvers
 
         private void HandleConfiguration((int automationPos, int grammarPos, int gssPos) config)
         {
-            foreach (var pos in _grammar.AdjacencyList[config.grammarPos])
+            var automationCurrentPos = config.automationPos;
+            var grammarCurrentPos = config.grammarPos;
+            var gssCurrentPos = config.gssPos;
+
+            foreach (var pos in _grammar.AdjacencyList[grammarCurrentPos])
             {
                 var grammarLabel = pos.Item1;
                 var grammarNextPos = pos.Item2;
@@ -75,16 +79,29 @@ namespace FormalLang5sem.Solvers
                 // case 1: current token in grammar is nonterminal
                 if (_grammar.Nonterminals.Contains(grammarLabel))
                 {
-                    _gss.AddVertex(grammarLabel, config.automationPos);
-                    var stackEnd = _gss.GetPositionOfVertex(grammarLabel, config.automationPos);
-                    _gss.AddEdge(stackEnd, grammarNextPos, config.gssPos);
+                    _gss.AddVertex(grammarLabel, automationCurrentPos);
+                    var gssLastPos = _gss.GetPositionOfVertex(grammarLabel, automationCurrentPos);
+                    _gss.AddEdge(gssLastPos, grammarNextPos, gssCurrentPos);
 
                     foreach (var start in _grammar.StartNodesOfNonterminals[grammarLabel])
                     {
-                        _workList.Push((config.automationPos, start, stackEnd));
+                        _workList.Push((automationCurrentPos, start, gssLastPos));
                     }
                 }
-                // case 2:
+
+                // case 2: current tokens in grammar and in automation are equal terminals
+                if (_graph.AdjacencyList.ContainsKey(automationCurrentPos))
+                {
+                    foreach (var pair in _graph.AdjacencyList[automationCurrentPos])
+                    {
+                        var (automationLabel, automationNextPos) = pair;
+
+                        if (automationLabel == grammarLabel)
+                        {
+                            _workList.Push((automationNextPos, grammarNextPos, gssCurrentPos));
+                        }
+                    }
+                }
                 // case 3:
             }
         }

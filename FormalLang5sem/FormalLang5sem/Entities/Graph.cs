@@ -45,10 +45,7 @@ namespace FormalLang5sem.Entities
         private GraphData.GraphData _parsingResult;
 
 
-        /// <summary>
-        /// lists contain labels of edges (if edge (i, j) labeled by "A", list at pos (i, j) will contain "A")
-        /// </summary>
-        public List<string>[,] GenerateAdjacencyMatrix()
+        private List<string>[,] GenerateAdjacencyMatrix()
         {
             int size = _parsingResult.Nodes.Count;
             var matrix = new List<string>[size, size];
@@ -76,29 +73,61 @@ namespace FormalLang5sem.Entities
 
 
         /// <summary>
-        /// returns dictionary where Key is start node and Value is list of pairs (label, final node)
+        /// lists contain labels of edges (if edge (i, j) labeled by "A", list at pos (i, j) will contain "A")
         /// </summary>
-        public Dictionary<int, List<(string, int)>> GenerateAdjacencyList()
+        public List<string>[,] AdjacencyMatrix
         {
-            var result = new Dictionary<int, List<(string, int)>>();
-
-            foreach (var edge in _parsingResult.Edges)
+            get
             {
-                var i = int.Parse(edge.Key.Item1);
-                var j = int.Parse(edge.Key.Item2);
-
-                if (!result.ContainsKey(i))
+                if (_adjacencyMatrix != null)
                 {
-                    result.Add(i, new List<(string, int)>());
+                    return _adjacencyMatrix;
                 }
-
-                foreach (var value in edge.Value)
+                else
                 {
-                    result[i].Add((value["label"], j));
+                    _adjacencyMatrix = GenerateAdjacencyMatrix();
+                    return _adjacencyMatrix;
                 }
             }
+        }
 
-            return result;
+
+        private List<int> _nodes;
+        private Dictionary<int, List<(string, int)>> _adjacencyList;
+        private List<string>[,] _adjacencyMatrix;
+
+
+        /// <summary>
+        /// dictionary where Key is start node and Value is list of pairs (label, final node)
+        /// </summary>
+        public Dictionary<int, List<(string, int)>> AdjacencyList
+        {
+            get
+            {
+                if (_adjacencyList != null)
+                {
+                    return _adjacencyList;
+                }
+
+                _adjacencyList = new Dictionary<int, List<(string, int)>>();
+
+                foreach (var edge in _parsingResult.Edges)
+                {
+                    var i = int.Parse(edge.Key.Item1);
+                    var j = int.Parse(edge.Key.Item2);
+
+                    if (!_adjacencyList.ContainsKey(i))
+                    {
+                        _adjacencyList.Add(i, new List<(string, int)>());
+                    }
+
+                    foreach (var value in edge.Value)
+                    {
+                        _adjacencyList[i].Add((value["label"], j));
+                    }
+                }
+                return _adjacencyList;
+            }
         }
 
 
@@ -129,8 +158,5 @@ namespace FormalLang5sem.Entities
                 return _nodes;
             }
         }
-
-
-        private List<int> _nodes;
     }
 }
