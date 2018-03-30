@@ -24,7 +24,7 @@ namespace FormalLang5sem.Solvers
 
             foreach (var automationState in graph.Nodes)
             {
-                foreach (var nonterminal in grammar.StartNodesOfNonterminals.Keys)
+                foreach (var nonterminal in grammar.Nonterminals)
                 {
                     _gss.AddVertex(nonterminal, automationState);
                     var positionInGss = _gss.GetPositionOfVertex(nonterminal, automationState);

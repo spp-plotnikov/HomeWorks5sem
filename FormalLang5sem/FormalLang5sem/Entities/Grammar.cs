@@ -181,5 +181,21 @@ namespace FormalLang5sem.Entities
 
 
         private Dictionary<string, List<int>> _startNodesOfNonterminals;
+
+
+        public List<string> Nonterminals
+        {
+            get
+            {
+                if (Content != null)    //  case of simple format
+                {
+                    return Content.Value.productionRules.Keys.ToList();
+                }
+                else                    //  case of Graphviz/DOT
+                {
+                    return StartNodesOfNonterminals.Keys.ToList();
+                }
+            }
+        }
     }
 }
