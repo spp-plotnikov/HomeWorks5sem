@@ -71,6 +71,21 @@ namespace FormalLang5sem.Solvers
             {
                 var grammarLabel = pos.Item1;
                 var grammarNextPos = pos.Item2;
+                
+                // case 1: current token in grammar is nonterminal
+                if (_grammar.Nonterminals.Contains(grammarLabel))
+                {
+                    _gss.AddVertex(grammarLabel, config.automationPos);
+                    var stackEnd = _gss.GetPositionOfVertex(grammarLabel, config.automationPos);
+                    _gss.AddEdge(stackEnd, grammarNextPos, config.gssPos);
+
+                    foreach (var start in _grammar.StartNodesOfNonterminals[grammarLabel])
+                    {
+                        _workList.Push((config.automationPos, start, stackEnd));
+                    }
+                }
+                // case 2:
+                // case 3:
             }
         }
     }
