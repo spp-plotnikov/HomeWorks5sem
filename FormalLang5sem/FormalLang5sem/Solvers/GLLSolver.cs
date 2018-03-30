@@ -24,13 +24,15 @@ namespace FormalLang5sem.Solvers
 
             foreach (var automationState in graph.Nodes)
             {
-                foreach (var nonterminalStart in grammar.StartNodesOfNonterminals.Keys)
+                foreach (var nonterminal in grammar.StartNodesOfNonterminals.Keys)
                 {
-                    var nonterminal = grammar.StartNodesOfNonterminals[nonterminalStart];
-
                     _gss.AddVertex(nonterminal, automationState);
                     var positionInGss = _gss.GetPositionOfVertex(nonterminal, automationState);
-                    _workList.Push((automationState, nonterminalStart, positionInGss));
+
+                    foreach (var nonterminalStart in grammar.StartNodesOfNonterminals[nonterminal])
+                    {
+                        _workList.Push((automationState, nonterminalStart, positionInGss));
+                    }                   
                 }
             }
             

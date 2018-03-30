@@ -151,9 +151,9 @@ namespace FormalLang5sem.Entities
 
 
         /// <summary>
-        /// If grammar represented as graph. Contains Key (start vertex) and Value (nonterminal)
+        /// If grammar represented as graph. Contains Key (nonterminal) and Value (list of start vertices)
         /// </summary>
-        public Dictionary<int, string> StartNodesOfNonterminals
+        public Dictionary<string, List<int>> StartNodesOfNonterminals
         {
             get
             {
@@ -162,12 +162,17 @@ namespace FormalLang5sem.Entities
                     return _startNodesOfNonterminals;
                 }
 
-                _startNodesOfNonterminals = new Dictionary<int, string>();
+                _startNodesOfNonterminals = new Dictionary<string, List<int>>();
                 foreach (var node in _parsingResult.Vertices)
                 {
                     if (node.Attributes.ContainsKey("color") && node.Attributes["color"] == "green")
                     {
-                        _startNodesOfNonterminals.Add(node.Id, node.Attributes["label"]);
+                        var nonterminal = node.Attributes["label"];
+                        if (!_startNodesOfNonterminals.ContainsKey(nonterminal))
+                        {
+                            _startNodesOfNonterminals.Add(nonterminal, new List<int>());
+                        }
+                        _startNodesOfNonterminals[nonterminal].Add(node.Id);
                     }
                 }
                 return _startNodesOfNonterminals;
@@ -175,6 +180,6 @@ namespace FormalLang5sem.Entities
         }
 
 
-        private Dictionary<int, string> _startNodesOfNonterminals;
+        private Dictionary<string, List<int>> _startNodesOfNonterminals;
     }
 }
