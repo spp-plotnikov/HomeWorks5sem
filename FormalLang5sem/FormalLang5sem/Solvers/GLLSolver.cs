@@ -16,6 +16,12 @@ namespace FormalLang5sem.Solvers
     {
         public string Solve(Graph graph, Grammar grammar)
         {
+            _workList = new Stack<(int, int, int)>();
+            _history = new HashSet<(int, int, int)>();
+            _gss = new GraphStructuredStack();
+            _graph = graph;
+            _grammar = grammar;
+
             foreach (var automationState in graph.Nodes)
             {
                 foreach (var nonterminalStart in grammar.StartNodesOfNonterminals.Keys)
@@ -33,9 +39,11 @@ namespace FormalLang5sem.Solvers
         }
 
 
-        private Stack<(int, int, int)> _workList = new Stack<(int, int, int)>();
-        private HashSet<(int, int, int)> _history = new HashSet<(int, int, int)>();
-        private GraphStructuredStack _gss = new GraphStructuredStack();
+        private Stack<(int, int, int)> _workList;
+        private HashSet<(int, int, int)> _history;
+        private GraphStructuredStack _gss;
+        private Graph _graph;
+        private Grammar _grammar;
 
 
         private void GLL()
@@ -57,7 +65,11 @@ namespace FormalLang5sem.Solvers
 
         private void HandleConfiguration((int automationPos, int grammarPos, int gssPos) config)
         {
-
+            foreach (var pos in _grammar.AdjacencyList[config.grammarPos])
+            {
+                var grammarLabel = pos.Item1;
+                var grammarNextPos = pos.Item2;
+            }
         }
     }
 }
