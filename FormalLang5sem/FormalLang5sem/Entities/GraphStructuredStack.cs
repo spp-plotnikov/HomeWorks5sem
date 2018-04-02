@@ -51,5 +51,8 @@ namespace FormalLang5sem.Entities
                 _edges[vertexPosition1].Add(tuple);
             }
         }
+
+
+        public (string, int) GetVertexByPosition(int position) => _vertices[position];
     }
 }

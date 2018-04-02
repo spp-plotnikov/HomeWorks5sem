@@ -37,7 +37,7 @@ namespace FormalLang5sem.Solvers
             }
             
             GLL();
-            return null;
+            return _result;
         }
 
 
@@ -46,6 +46,7 @@ namespace FormalLang5sem.Solvers
         private GraphStructuredStack _gss;
         private Graph _graph;
         private Grammar _grammar;
+        private string _result;
 
 
         private void GLL()
@@ -71,39 +72,59 @@ namespace FormalLang5sem.Solvers
             var grammarCurrentPos = config.grammarPos;
             var gssCurrentPos = config.gssPos;
 
-            foreach (var pos in _grammar.AdjacencyList[grammarCurrentPos])
+            #region not final position
+            // if current grammar position is not final for current nonterminal
+            if (_grammar.AdjacencyList.ContainsKey(grammarCurrentPos))
             {
-                var grammarLabel = pos.Item1;
-                var grammarNextPos = pos.Item2;
-                
-                // case 1: current token in grammar is nonterminal
-                if (_grammar.Nonterminals.Contains(grammarLabel))
+                foreach (var pos in _grammar.AdjacencyList[grammarCurrentPos])
                 {
-                    _gss.AddVertex(grammarLabel, automationCurrentPos);
-                    var gssLastPos = _gss.GetPositionOfVertex(grammarLabel, automationCurrentPos);
-                    _gss.AddEdge(gssLastPos, grammarNextPos, gssCurrentPos);
+                    var grammarLabel = pos.Item1;
+                    var grammarNextPos = pos.Item2;
 
-                    foreach (var start in _grammar.StartNodesOfNonterminals[grammarLabel])
+                    // case 1: current token in grammar is nonterminal
+                    if (_grammar.Nonterminals.Contains(grammarLabel))
                     {
-                        _workList.Push((automationCurrentPos, start, gssLastPos));
-                    }
-                }
+                        _gss.AddVertex(grammarLabel, automationCurrentPos);
+                        var gssLastPos = _gss.GetPositionOfVertex(grammarLabel, automationCurrentPos);
+                        _gss.AddEdge(gssLastPos, grammarNextPos, gssCurrentPos);
 
-                // case 2: current tokens in grammar and in automation are equal terminals
-                if (_graph.AdjacencyList.ContainsKey(automationCurrentPos))
-                {
-                    foreach (var pair in _graph.AdjacencyList[automationCurrentPos])
-                    {
-                        var (automationLabel, automationNextPos) = pair;
-
-                        if (automationLabel == grammarLabel)
+                        foreach (var start in _grammar.StartNodesOfNonterminals[grammarLabel])
                         {
-                            _workList.Push((automationNextPos, grammarNextPos, gssCurrentPos));
+                            _workList.Push((automationCurrentPos, start, gssLastPos));
+                        }
+                    }
+
+                    // case 2: current tokens in grammar and in automation are equal terminals
+                    if (_graph.AdjacencyList.ContainsKey(automationCurrentPos))
+                    {
+                        foreach (var pair in _graph.AdjacencyList[automationCurrentPos])
+                        {
+                            var (automationLabel, automationNextPos) = pair;
+
+                            if (automationLabel == grammarLabel)
+                            {
+                                _workList.Push((automationNextPos, grammarNextPos, gssCurrentPos));
+                            }
                         }
                     }
                 }
-                // case 3:
             }
+            #endregion
+
+            #region final position
+            // if current grammar position is final for current nonterminal
+            var gssCurrentVertex = _gss.GetVertexByPosition(gssCurrentPos);
+            var currentNonterminal = gssCurrentVertex.Item1;
+            var finalNodes = _grammar.FinalNodesOfNonterminals[currentNonterminal];
+            if (finalNodes.Contains(grammarCurrentPos))
+            {
+                _result += gssCurrentVertex.Item2.ToString()
+                        + currentNonterminal 
+                        + automationCurrentPos.ToString() 
+                        + Environment.NewLine;
+            }
+            #endregion
+
         }
     }
 }

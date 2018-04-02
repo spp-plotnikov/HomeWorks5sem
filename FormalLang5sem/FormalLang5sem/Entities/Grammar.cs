@@ -134,8 +134,6 @@ namespace FormalLang5sem.Entities
                 var leftHandSide = parts[0].Trim();
                 var rightHandSide = parts[1].Split(new string[] { " ", "\t", "\r" }, StringSplitOptions.RemoveEmptyEntries);
 
-
-
                 if (!parsingResult.productionRules.Keys.Contains(leftHandSide))
                 {
                     parsingResult.productionRules.Add(leftHandSide, new List<string[]> { rightHandSide });
@@ -147,6 +145,36 @@ namespace FormalLang5sem.Entities
             }
 
             return parsingResult;
+        }
+
+
+        /// <summary>
+        /// If grammar represented as graph. Contains Key (nonterminal) and Value (list of end vertices)
+        /// </summary>
+        public Dictionary<string, List<int>> FinalNodesOfNonterminals
+        {
+            get
+            {
+                if (_finalNodesOfNonterminals != null)
+                {
+                    return _finalNodesOfNonterminals;
+                }
+
+                _finalNodesOfNonterminals = new Dictionary<string, List<int>>();
+                foreach (var node in _parsingResult.Vertices)
+                {
+                    if (node.Attributes.ContainsKey("shape") && node.Attributes["shape"] == "doublecircle")
+                    {
+                        var nonterminal = node.Attributes["label"];
+                        if (!_finalNodesOfNonterminals.ContainsKey(nonterminal))
+                        {
+                            _finalNodesOfNonterminals.Add(nonterminal, new List<int>());
+                        }
+                        _finalNodesOfNonterminals[nonterminal].Add(node.Id);
+                    }
+                }
+                return _finalNodesOfNonterminals;
+            }
         }
 
 
@@ -181,6 +209,7 @@ namespace FormalLang5sem.Entities
 
 
         private Dictionary<string, List<int>> _startNodesOfNonterminals;
+        private Dictionary<string, List<int>> _finalNodesOfNonterminals;
 
 
         public List<string> Nonterminals
