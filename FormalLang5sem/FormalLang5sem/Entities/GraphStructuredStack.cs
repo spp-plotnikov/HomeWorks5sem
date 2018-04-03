@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace FormalLang5sem.Entities
 {
+    /// <summary>
+    /// Vertex is a pair (nonterminal, position in automation);
+    /// Edge labeled by position in grammar
+    /// </summary>
     class GraphStructuredStack
     {
         private List<(string, int)> _vertices;
@@ -38,6 +42,8 @@ namespace FormalLang5sem.Entities
             => _vertices.Contains((nonterminal, positionInGraph));
 
 
+        /// <param name="vertexPosition1">head</param>
+        /// <param name="vertexPosition2">tail</param>
         public void AddEdge(int vertexPosition1, int positionInGrammar, int vertexPosition2)
         {
             if (!_edges.ContainsKey(vertexPosition1))
@@ -54,5 +60,23 @@ namespace FormalLang5sem.Entities
 
 
         public (string, int) GetVertexByPosition(int position) => _vertices[position];
+
+
+        /// <summary>
+        /// if given vertex is start of some edges 
+        /// than this method returns all end vertices for these edges;
+        /// returned list contains position of end vertex and position in grammar
+        /// </summary>
+        public List<(int, int)> SuccessorsOfVertex(int vertexPosition)
+        {
+            if (_edges.ContainsKey(vertexPosition))
+            {
+                return _edges[vertexPosition];
+            }
+            else
+            {
+                return new List<(int, int)>();  //  empty list :-)
+            }
+        }
     }
 }
