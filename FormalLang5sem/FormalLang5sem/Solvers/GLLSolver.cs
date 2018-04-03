@@ -19,6 +19,7 @@ namespace FormalLang5sem.Solvers
             _workList = new Stack<(int, int, int)>();
             _history = new HashSet<(int, int, int)>();
             _gss = new GraphStructuredStack();
+            _result = new HashSet<string>();
             _graph = graph;
             _grammar = grammar;
 
@@ -37,7 +38,13 @@ namespace FormalLang5sem.Solvers
             }
             
             GLL();
-            return _result;
+
+            var result = "";
+            foreach (var triplet in _result)
+            {
+                result += triplet;
+            }
+            return result;
         }
 
 
@@ -46,7 +53,7 @@ namespace FormalLang5sem.Solvers
         private GraphStructuredStack _gss;
         private Graph _graph;
         private Grammar _grammar;
-        private string _result;
+        private HashSet<string> _result;
 
 
         private void GLL()
@@ -118,10 +125,11 @@ namespace FormalLang5sem.Solvers
             var finalNodes = _grammar.FinalNodesOfNonterminals[currentNonterminal];
             if (finalNodes.Contains(grammarCurrentPos))
             {
-                _result += gssCurrentVertex.Item2.ToString()
-                        + currentNonterminal 
-                        + automationCurrentPos.ToString() 
-                        + Environment.NewLine;
+                var triplet = gssCurrentVertex.Item2.ToString() + ","
+                            + currentNonterminal + ","
+                            + automationCurrentPos.ToString() 
+                            + Environment.NewLine;
+                _result.Add(triplet);
             }
             #endregion
 
