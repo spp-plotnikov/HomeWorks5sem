@@ -18,7 +18,7 @@ namespace FormalLang5sem.Entities
 
         public GraphStructuredStack()
         {
-            _vertices = new List<(string, int)>();
+            _vertices = new List<(string nonterminal, int graphPos)>();
             _edges = new Dictionary<int, List<(int, int)>>();
         }
 
@@ -65,9 +65,9 @@ namespace FormalLang5sem.Entities
         /// <summary>
         /// if given vertex is start of some edges 
         /// than this method returns all end vertices for these edges;
-        /// returned list contains position of end vertex and position in grammar
+        /// returned list contains position in grammar and position of end vertex
         /// </summary>
-        public List<(int, int)> SuccessorsOfVertex(int vertexPosition)
+        public List<(int grammarPos, int vertexPos)> SuccessorsOfVertex(int vertexPosition)
         {
             if (_edges.ContainsKey(vertexPosition))
             {

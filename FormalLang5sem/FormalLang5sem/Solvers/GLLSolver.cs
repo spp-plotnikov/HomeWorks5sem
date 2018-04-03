@@ -130,9 +130,13 @@ namespace FormalLang5sem.Solvers
                             + automationCurrentPos.ToString() 
                             + Environment.NewLine;
                 _result.Add(triplet);
+
+                foreach (var (grammarPos, vertexPos) in _gss.SuccessorsOfVertex(gssCurrentPos))
+                {
+                    _workList.Push((automationCurrentPos, grammarPos, vertexPos));
+                }
             }
             #endregion
-
         }
     }
 }
