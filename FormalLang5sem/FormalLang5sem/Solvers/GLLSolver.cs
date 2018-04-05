@@ -20,6 +20,7 @@ namespace FormalLang5sem.Solvers
             _history = new HashSet<(int, int, int)>();
             _gss = new GraphStructuredStack();
             _result = new HashSet<string>();
+            _poppedGssNodes = new Dictionary<int, HashSet<int>>();
             _graph = graph;
             _grammar = grammar;
 
@@ -54,6 +55,7 @@ namespace FormalLang5sem.Solvers
         private Graph _graph;
         private Grammar _grammar;
         private HashSet<string> _result;
+        private Dictionary<int, HashSet<int>> _poppedGssNodes;
 
 
         private void GLL()
@@ -99,6 +101,14 @@ namespace FormalLang5sem.Solvers
                         {
                             _workList.Push((automationCurrentPos, start, gssLastPos));
                         }
+
+                        if (_poppedGssNodes.ContainsKey(gssLastPos))
+                        {
+                            foreach (var automationPos in _poppedGssNodes[gssLastPos])
+                            {
+                                _workList.Push((automationPos, grammarNextPos, gssCurrentPos));
+                            }
+                        }
                     }
 
                     // case 2: current tokens in grammar and in automation are equal terminals
@@ -130,6 +140,12 @@ namespace FormalLang5sem.Solvers
                             + automationCurrentPos.ToString() 
                             + Environment.NewLine;
                 _result.Add(triplet);
+
+                if (!_poppedGssNodes.ContainsKey(gssCurrentPos))
+                {
+                    _poppedGssNodes.Add(gssCurrentPos, new HashSet<int>());
+                }
+                _poppedGssNodes[gssCurrentPos].Add(automationCurrentPos);
 
                 foreach (var (grammarPos, vertexPos) in _gss.SuccessorsOfVertex(gssCurrentPos))
                 {
