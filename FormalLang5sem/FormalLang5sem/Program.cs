@@ -79,7 +79,9 @@ namespace FormalLang5sem
             }
 
             //ISolver solver = new MatrixSolver();
-            ISolver solver = new GLLSolver();
+            //ISolver solver = new GLLSolver();
+            ISolver solver = new BottomUpSolver();
+
             var result = solver.Solve(graph, grammar);
             
             if (outputPath != "")

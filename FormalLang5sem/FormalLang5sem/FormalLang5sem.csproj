@@ -71,6 +71,7 @@
     <Compile Include="Entities\Graph.cs" />
     <Compile Include="Entities\GraphStructuredStack.cs" />
     <Compile Include="Interfaces\ISolver.cs" />
+    <Compile Include="Solvers\BottomUpSolver.cs" />
     <Compile Include="Solvers\GLLSolver.cs" />
     <Compile Include="Solvers\MatrixSolver.cs" />
     <Compile Include="Program.cs" />
