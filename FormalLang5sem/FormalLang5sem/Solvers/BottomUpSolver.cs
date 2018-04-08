@@ -13,7 +13,13 @@ namespace FormalLang5sem.Solvers
     {
         public string Solve(Graph graph, Grammar grammar)
         {
-            throw new NotImplementedException();
+            _grammar = grammar;
+            _graph = graph;
+
+            return null;
         }
+
+        private Grammar _grammar;
+        private Graph _graph;
     }
 }
