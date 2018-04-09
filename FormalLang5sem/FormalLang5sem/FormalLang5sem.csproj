@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\CartesianProduct.cs" />
     <Compile Include="Entities\Grammar.cs" />
     <Compile Include="Entities\Graph.cs" />
     <Compile Include="Entities\GraphStructuredStack.cs" />
