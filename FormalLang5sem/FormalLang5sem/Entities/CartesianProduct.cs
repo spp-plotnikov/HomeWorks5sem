@@ -10,9 +10,7 @@ namespace FormalLang5sem.Entities
     class CartesianProduct<T>
     {
         private List<string>[,] _table;
-        private Dictionary<int, T> _valueByIndex1;  //  in rows
         private Dictionary<T, int> _indexByValue1;  //  in rows
-        private Dictionary<int, T> _valueByIndex2;  //  in columns
         private Dictionary<T, int> _indexByValue2;  //  in columns
 
 
@@ -41,12 +39,10 @@ namespace FormalLang5sem.Entities
         private void IndexesMatching(ISet<T> set1, ISet<T> set2)
         {
             int k = 0;
-            _valueByIndex1 = set1.ToDictionary(t => k++);
-            _indexByValue1 = _valueByIndex1.ToDictionary(t => t.Value, t => t.Key);
+            _indexByValue1 = set1.ToDictionary(t => t, t => k++);
 
             k = 0;
-            _valueByIndex2 = set2.ToDictionary(t => k++);
-            _indexByValue2 = _valueByIndex2.ToDictionary(t => t.Value, t => t.Key);
+            _indexByValue2 = set2.ToDictionary(t => t, t => k++);
         }
 
 
