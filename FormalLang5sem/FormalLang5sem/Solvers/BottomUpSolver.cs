@@ -16,14 +16,18 @@ namespace FormalLang5sem.Solvers
             _grammar = grammar;
             _graph = graph;
             _matrix = CreateMatrix();
-            
-            return null;
+            _result = string.Empty;
+
+            BottomUp();
+
+            return _result;
         }
 
 
         private Grammar _grammar;
         private Graph _graph;
         private CartesianProduct<(int, int)> _matrix;
+        private string _result;
 
 
         private CartesianProduct<(int, int)> CreateMatrix()
@@ -38,6 +42,12 @@ namespace FormalLang5sem.Solvers
             }
 
             return new CartesianProduct<(int, int)>(allPairs, allPairs);
+        }
+
+
+        private void BottomUp()
+        {
+
         }
     }
 }
