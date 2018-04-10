@@ -210,6 +210,7 @@ namespace FormalLang5sem.Entities
 
         private Dictionary<string, List<int>> _startNodesOfNonterminals;
         private Dictionary<string, List<int>> _finalNodesOfNonterminals;
+        private List<int> _idsOfNodes;
 
 
         public List<string> Nonterminals
@@ -223,6 +224,30 @@ namespace FormalLang5sem.Entities
                 else                    //  case of Graphviz/DOT
                 {
                     return StartNodesOfNonterminals.Keys.ToList();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// If grammar represented as graph.
+        /// </summary>
+        public List<int> Nodes
+        {
+            get
+            {
+                if (_idsOfNodes != null)
+                {
+                    return _idsOfNodes;
+                }
+                else
+                {
+                    _idsOfNodes = new List<int>();
+                    foreach (var node in _parsingResult.Vertices)
+                    {
+                        _idsOfNodes.Add(node.Id);
+                    }
+                    return _idsOfNodes;
                 }
             }
         }
