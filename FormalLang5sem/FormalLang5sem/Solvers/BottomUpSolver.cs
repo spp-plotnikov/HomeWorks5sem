@@ -61,29 +61,30 @@ namespace FormalLang5sem.Solvers
         /// </todo>
         private void GenerateAdditions()
         {
-            //foreach (var currNonterminal in _grammar.Nonterminals)
-            //{
-            //    var startNodes = _grammar.StartNodesOfNonterminals[currNonterminal];
-            //    var finalNodes = _grammar.FinalNodesOfNonterminals[currNonterminal];
-            //    foreach (var currGrammarState in startNodes)
-            //    {
-            //        foreach (var currAutomationState in _graph.Nodes)
-            //        {
-            //            if (_graph.AdjacencyList.ContainsKey(currAutomationState)) // not a dead end
-            //            {
-            //                var paths = _graph.AdjacencyList[currAutomationState];
-            //                foreach (var (token, nextAutomationState) in paths)
-            //                {
-            //                    if (_grammar.AdjacencyList.ContainsKey(currGrammarState)
-            //                        && _grammar.AdjacencyList[currGrammarState].Count(t => t.Item1 == token) != 0)
-            //                    {
+            foreach (var currNonterminal in _grammar.Nonterminals)
+            {
+                var startNodes = _grammar.StartNodesOfNonterminals[currNonterminal];
+                var finalNodes = _grammar.FinalNodesOfNonterminals[currNonterminal];
+                foreach (var currGrammarState in startNodes)
+                {
+                    foreach (var currAutomationState in _graph.Nodes)
+                    {
+                        if (_graph.AdjacencyList.ContainsKey(currAutomationState)) // not a dead end
+                        {
+                            var paths = _graph.AdjacencyList[currAutomationState];
+                            foreach (var (token, nextAutomationState) in paths)
+                            {
+                                if (_grammar.AdjacencyList.ContainsKey(currGrammarState)
+                                    // next line means that tokens in grammar and in graph (automation) are the same
+                                    && _grammar.AdjacencyList[currGrammarState].Count(t => t.Item1 == token) != 0)
+                                {
 
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
