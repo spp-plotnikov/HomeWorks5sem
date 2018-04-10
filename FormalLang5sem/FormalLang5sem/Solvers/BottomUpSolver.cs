@@ -78,6 +78,10 @@ namespace FormalLang5sem.Solvers
 
         private void FindGraphAndGrammarIntersection(int currAutomationState, int currGrammarState)
         {
+            // item in worklist contains (PAIR1, TOKEN, PAIR2), where
+            // PAIR1 and PAIR2 are pairs (automationState, grammarState)
+            // this means that there is an ability to move from PAIR1 to PAIR2 via TOKEN
+            var workList = new Stack<((int, int), string, (int, int))>();
             do
             {
                 if (_graph.AdjacencyList.ContainsKey(currAutomationState)) // not a dead end
