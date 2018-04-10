@@ -82,6 +82,7 @@ namespace FormalLang5sem.Solvers
             // PAIR1 and PAIR2 are pairs (automationState, grammarState)
             // this means that there is an ability to move from PAIR1 to PAIR2 via TOKEN
             var workList = new Stack<((int, int), string, (int, int))>();
+            var history = new HashSet<((int, int), string, (int, int))>();
             do
             {
                 if (_graph.AdjacencyList.ContainsKey(currAutomationState)) // not a dead end
@@ -93,11 +94,23 @@ namespace FormalLang5sem.Solvers
                             // next line means that tokens in grammar and in graph (automation) are the same
                             && _grammar.AdjacencyList[currGrammarState].Count(t => t.Item1 == token) != 0)
                         {
+                            var nextGrammarState = _grammar.AdjacencyList[currGrammarState]
+                                                           .First(t => t.Item1 == token)  // why only first??!!
+                                                           .Item2;  
 
+                            var tuple = ((currAutomationState, currGrammarState), 
+                                         token, 
+                                         (nextAutomationState, nextGrammarState));
+
+                            if (!history.Contains(tuple))
+                            {
+                                workList.Push(tuple);
+                                history.Add(tuple);
+                            }
                         }
                     }
                 }
-            } while ();
+            } while (workList.Count > 0);
         }
 
 
