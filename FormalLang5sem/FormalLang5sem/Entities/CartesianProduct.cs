@@ -48,5 +48,16 @@ namespace FormalLang5sem.Entities
             _valueByIndex2 = set2.ToDictionary(t => k++);
             _indexByValue2 = _valueByIndex2.ToDictionary(t => t.Value, t => t.Key);
         }
+
+
+        public List<string> this[T itemInRow, T itemInColumn]
+        {
+            get
+            {
+                int i = _indexByValue1[itemInRow];
+                int j = _indexByValue2[itemInColumn];
+                return _table[i, j];
+            }
+        }
     }
 }
