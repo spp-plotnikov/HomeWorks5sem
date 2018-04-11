@@ -1,0 +1,15 @@
+S : I B
+S : G C
+S : I D
+S : G E
+A : H A
+A : 5
+B : S F
+C : S J
+D : A F
+E : A J
+G : 1
+J : 2
+I : 3
+F : 4
+H : 5
