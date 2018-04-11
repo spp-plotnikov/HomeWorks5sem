@@ -15,7 +15,10 @@ namespace FormalLang5sem
     {
         static void Main(string[] args)
         {
-            new Tests().MatrixSolverTest();
+            if (args.Contains("tests"))
+            {
+                new Tests().RunAllTests();
+            }
             PrintExplanation();
             InteractWithFiles();
         }

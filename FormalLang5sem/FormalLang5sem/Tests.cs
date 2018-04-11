@@ -13,6 +13,14 @@ namespace FormalLang5sem
 {
     class Tests
     {
+        public void RunAllTests()
+        {
+            GLLSolverTest();
+            BottomUpSolverTest();
+            MatrixSolverTest();
+        }
+
+
         public void MatrixSolverTest()
         {
             Console.WriteLine("Tests for Matrix:");
