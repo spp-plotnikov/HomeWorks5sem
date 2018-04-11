@@ -15,9 +15,48 @@ namespace FormalLang5sem
     {
         public void RunAllTests()
         {
+            SimpleTest();
             GLLSolverTest();
             BottomUpSolverTest();
             MatrixSolverTest();
+        }
+
+
+        public void SimpleTest()
+        {
+            Console.WriteLine("Simple test:");
+
+            var grammarFileDot = "Resources\\Grammars\\simple.dot";
+            var grammarFileSimple = "Resources\\Grammars\\simple.txt";
+            var graphFile = "Resources\\Automata\\simple.dot";
+
+            var graphDot = File.ReadAllText(graphFile, Encoding.Default);
+            var grammarDot = File.ReadAllText(grammarFileDot, Encoding.Default);
+            var grammarSimple = File.ReadAllText(grammarFileSimple, Encoding.Default);
+
+            var graph = new Graph(graphDot);
+            var grammar = Grammar.FromDot(grammarDot);
+            var grammarForMatrix = Grammar.FromSimpleFormat(grammarSimple);
+
+            var gllSolver = new GLLSolver();
+            var matrixSolver = new MatrixSolver();
+            var bottomUpSolver = new BottomUpSolver();
+
+            var resultGll = gllSolver.Solve(graph, grammar);
+            var resultMatrix = matrixSolver.Solve(graph, grammarForMatrix);
+            var resultBottomUp = bottomUpSolver.Solve(graph, grammar);
+
+            var all = new List<string>() { resultBottomUp, resultMatrix, resultGll };
+            foreach (var result in all)
+            {
+                var count = result.Split('S').Length - 1;  // count of triplets (i,S,j)
+                if (count != 2)
+                {
+                    Console.WriteLine("Simple test failed");
+                }
+            }
+            Console.WriteLine("Simple test passed");
+            Console.WriteLine();
         }
 
 
