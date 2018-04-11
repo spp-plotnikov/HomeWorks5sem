@@ -64,20 +64,24 @@ namespace FormalLang5sem.Solvers
             foreach (var currNonterminal in _grammar.Nonterminals)
             {
                 var startNodes = _grammar.StartNodesOfNonterminals[currNonterminal];
-                var finalNodes = _grammar.FinalNodesOfNonterminals[currNonterminal];
                 foreach (var currGrammarState in startNodes)
                 {
                     foreach (var currAutomationState in _graph.Nodes)
                     {
-                        FindGraphAndGrammarIntersection(currAutomationState, currGrammarState);
+                        FindGraphAndGrammarIntersection(currAutomationState, 
+                                                        currGrammarState, currNonterminal);
                     }
                 }
             }
         }
 
 
-        private void FindGraphAndGrammarIntersection(int currAutomationState, int currGrammarState)
+        private void FindGraphAndGrammarIntersection(int automationState, int grammarState, string nonterminal)
         {
+            var finalNodes = _grammar.FinalNodesOfNonterminals[nonterminal];
+            var currAutomationState = automationState;
+            var currGrammarState = grammarState;
+
             // item in worklist contains (PAIR1, TOKEN, PAIR2), where
             // PAIR1 and PAIR2 are pairs (automationState, grammarState)
             // this means that there is an ability to move from PAIR1 to PAIR2 via TOKEN
@@ -85,6 +89,21 @@ namespace FormalLang5sem.Solvers
             var history = new HashSet<((int, int), string, (int, int))>();
             do
             {
+                if (workList.Count > 0)
+                {
+                    var currState = workList.Pop();
+                    var pair1 = currState.Item1;
+                    var pair2 = currState.Item3;
+                    var token = currState.Item2;
+                    if (!_matrix[pair1, pair2].Contains(token))
+                    {
+                        _matrix[pair1, pair2].Add(token);
+                    }
+
+                    currAutomationState = pair2.Item1;
+                    currGrammarState = pair2.Item2;
+                }
+
                 if (_graph.AdjacencyList.ContainsKey(currAutomationState)) // not a dead end
                 {
                     var paths = _graph.AdjacencyList[currAutomationState];
@@ -109,6 +128,13 @@ namespace FormalLang5sem.Solvers
                             }
                         }
                     }
+                }
+
+                if (finalNodes.Contains(currGrammarState))
+                {
+                    var pair1 = (automationState, grammarState);
+                    var pair2 = (currAutomationState, currGrammarState);
+                    _matrix[pair1, pair2].Add(nonterminal);
                 }
             } while (workList.Count > 0);
         }
