@@ -50,8 +50,7 @@ namespace FormalLang5sem.Solvers
             bool hasChanged = false;
             do
             {
-                GenerateAdditions();
-                AddGeneratedAdditions();
+                GenerateAdditions(out hasChanged);
             } while (hasChanged);
         }
 
@@ -59,8 +58,9 @@ namespace FormalLang5sem.Solvers
         /// <todo>
         /// make refactoring: rename this method
         /// </todo>
-        private void GenerateAdditions()
+        private void GenerateAdditions(out bool hasChanged)
         {
+            hasChanged = false;
             foreach (var currNonterminal in _grammar.Nonterminals)
             {
                 var startNodes = _grammar.StartNodesOfNonterminals[currNonterminal];
@@ -68,7 +68,7 @@ namespace FormalLang5sem.Solvers
                 {
                     foreach (var currAutomationState in _graph.Nodes)
                     {
-                        FindGraphAndGrammarIntersection(currAutomationState, 
+                        hasChanged |= FindGraphAndGrammarIntersection(currAutomationState, 
                                                         currGrammarState, currNonterminal);
                     }
                 }
@@ -76,17 +76,16 @@ namespace FormalLang5sem.Solvers
         }
 
 
-        private HashSet<(int, string, int)> FindGraphAndGrammarIntersection(int automationState, 
-                                                    int grammarState, string nonterminal)
+        /// <returns>
+        /// returns true if was found new automation and grammar intersection
+        /// </returns>
+        private bool FindGraphAndGrammarIntersection(int automationState, int grammarState, string nonterminal)
         {
             var finalNodes = _grammar.FinalNodesOfNonterminals[nonterminal];
             var currAutomationState = automationState;
             var currGrammarState = grammarState;
 
-            // this set contains triplets (graphNode1, label, graphNode2)
-            // which are new paths which will be added to the automation (graph)
-            // graphNode1 is start node, graphNode2 — final
-            var newPaths = new HashSet<(int, string, int)>();
+            bool addedNewPaths = false;
 
             // item in worklist contains (PAIR1, TOKEN, PAIR2), where
             // PAIR1 and PAIR2 are pairs (automationState, grammarState)
@@ -141,28 +140,36 @@ namespace FormalLang5sem.Solvers
                     var pair1 = (automationState, grammarState);
                     var pair2 = (currAutomationState, currGrammarState);
                     _matrix[pair1, pair2].Add(nonterminal);
-                    newPaths.Add((automationState, nonterminal, currAutomationState));
+                    addedNewPaths |= AddNewPathToGraph(automationState, nonterminal, currAutomationState);
                 }
             } while (workList.Count > 0);
 
-            return newPaths;
+            return addedNewPaths;
         }
 
 
-        /// <summary>
-        /// this set contains triplets (graphNode1, label, graphNode2)
-        /// which are new paths which will be added to the automation (graph);
-        /// graphNode1 is start node, graphNode2 — final
-        /// </summary>
-        private HashSet<(int, string, int)> _newGraphPaths;
-
-
-        /// <todo>
-        /// make refactoring: rename this method
-        /// </todo>
-        private void AddGeneratedAdditions()
+        /// <returns>
+        /// returns false if graph contains this path, true otherwise
+        /// </returns>
+        private bool AddNewPathToGraph(int startNode, string label, int finalNode)
         {
-
+            if (_graph.AdjacencyList.ContainsKey(startNode))
+            {
+                if (_graph.AdjacencyList[startNode].Contains((label, finalNode)))
+                {
+                    return false;
+                }
+                else
+                {
+                    _graph.AdjacencyList[startNode].Add((label, finalNode));
+                    return true;
+                }
+            }
+            else
+            {
+                _graph.AdjacencyList.Add(startNode, new List<(string, int)>() { (label, finalNode) });
+                return true;
+            }
         }
     }
 }
