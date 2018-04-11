@@ -15,7 +15,7 @@ namespace FormalLang5sem
     {
         static void Main(string[] args)
         {
-            new Tests().GLLSolverTest();
+            new Tests().BottomUpSolverTest();
             PrintExplanation();
             InteractWithFiles();
         }

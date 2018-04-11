@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FormalLang5sem.Entities;
 using FormalLang5sem.Solvers;
+using FormalLang5sem.Interfaces;
 using System.IO;
 
 
@@ -12,9 +13,24 @@ namespace FormalLang5sem
 {
     class Tests
     {
+        public void BottomUpSolverTest()
+        {
+            Console.WriteLine("Tests for Bottom Up:");
+            StandardTest(new BottomUpSolver());
+            Console.WriteLine();
+        }
+
+
         public void GLLSolverTest()
         {
-            var solver = new GLLSolver();
+            Console.WriteLine("Tests for GLL:");
+            StandardTest(new GLLSolver());
+            Console.WriteLine();
+        }
+
+
+        private void StandardTest(ISolver solver)
+        {
             foreach (var grammarName in _grammars)
             {
                 foreach (var graphName in _automata)
