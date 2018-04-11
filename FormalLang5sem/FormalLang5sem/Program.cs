@@ -15,7 +15,7 @@ namespace FormalLang5sem
     {
         static void Main(string[] args)
         {
-            new Tests().BottomUpSolverTest();
+            new Tests().MatrixSolverTest();
             PrintExplanation();
             InteractWithFiles();
         }
@@ -72,7 +72,7 @@ namespace FormalLang5sem
         private static void GenerateResult(string graphText, string grammarText, string outputPath)
         {
             var graph = new Graph(graphText);
-            var grammar = Grammar.FromDot(grammarText);
+            var grammar = Grammar.FromSimpleFormat(grammarText);
 
             if (!graph.IsParsable.Value || !grammar.IsParsable.Value)
             {
@@ -80,9 +80,9 @@ namespace FormalLang5sem
                 return;
             }
 
-            //ISolver solver = new MatrixSolver();
+            ISolver solver = new MatrixSolver();
             //ISolver solver = new GLLSolver();
-            ISolver solver = new BottomUpSolver();
+            //ISolver solver = new BottomUpSolver();
 
             var result = solver.Solve(graph, grammar);
             

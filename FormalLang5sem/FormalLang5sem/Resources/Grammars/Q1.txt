@@ -1,0 +1,14 @@
+S : C A
+S : D B
+S : C E
+S : D F
+G : C A
+G : D B
+G : C E
+G : D F
+A : G E
+B : G F
+C : 4
+E : 3
+D : 2
+F : 1

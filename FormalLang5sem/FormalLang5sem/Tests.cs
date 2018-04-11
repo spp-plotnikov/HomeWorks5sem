@@ -13,6 +13,14 @@ namespace FormalLang5sem
 {
     class Tests
     {
+        public void MatrixSolverTest()
+        {
+            Console.WriteLine("Tests for Matrix:");
+            StandardTest(new MatrixSolver());
+            Console.WriteLine();
+        }
+
+
         public void BottomUpSolverTest()
         {
             Console.WriteLine("Tests for Bottom Up:");
@@ -31,18 +39,22 @@ namespace FormalLang5sem
 
         private void StandardTest(ISolver solver)
         {
+            bool isMatrixSolver = solver.GetType() == typeof(MatrixSolver);
+
             foreach (var grammarName in _grammars)
             {
                 foreach (var graphName in _automata)
                 {
+                    var filenameExtension = isMatrixSolver ? ".txt" : ".dot";
+                    var grammarFile = "Resources\\Grammars\\" + grammarName + filenameExtension;
                     var graphFile = "Resources\\Automata\\" + graphName + ".dot";
-                    var grammarFile = "Resources\\Grammars\\" + grammarName + ".dot";
 
                     var graphDot = File.ReadAllText(graphFile, Encoding.Default);
                     var grammarDot = File.ReadAllText(grammarFile, Encoding.Default);
 
                     var graph = new Graph(graphDot);
-                    var grammar = Grammar.FromDot(grammarDot);
+                    var grammar = isMatrixSolver ? Grammar.FromSimpleFormat(grammarDot) 
+                                                 : Grammar.FromDot(grammarDot);
 
                     var result = solver.Solve(graph, grammar);
                     var count = result.Split('S').Length - 1;  // count of triplets (i,S,j)
