@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using FormalLang5sem.Interfaces;
 using FormalLang5sem.Entities;
+using System.Runtime.CompilerServices;
 
 
+[assembly: InternalsVisibleTo("FormalLang5semTests")]
 namespace FormalLang5sem.Solvers
 {
-    class MatrixSolver : ISolver
+    internal class MatrixSolver : ISolver
     {
         public string Solve(Graph graph, Grammar grammar)
         {

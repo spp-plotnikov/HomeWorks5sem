@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FormalLang5sem.Interfaces;
 using FormalLang5sem.Entities;
 using FormalLang5sem.Solvers;
+using System.IO;
 
 
 namespace FormalLang5sem
@@ -42,23 +43,23 @@ namespace FormalLang5sem
         {
             Console.WriteLine("Please enter graph's file path");
             var graphFilePath = Console.ReadLine();
-            if (!System.IO.File.Exists(graphFilePath))
+            if (!File.Exists(graphFilePath))
             {
                 Console.WriteLine("Invalid path or file does not exist");
                 return;
             }
 
-            var graph = System.IO.File.ReadAllText(graphFilePath, Encoding.Default);
+            var graph = File.ReadAllText(graphFilePath, Encoding.Default);
 
             Console.WriteLine("Please enter grammar's file path");
             var grammarFilePath = Console.ReadLine();
-            if (!System.IO.File.Exists(grammarFilePath))
+            if (!File.Exists(grammarFilePath))
             {
                 Console.WriteLine("Invalid path or file does not exist");
                 return;
             }
 
-            var grammar = System.IO.File.ReadAllText(grammarFilePath, Encoding.Default);
+            var grammar = File.ReadAllText(grammarFilePath, Encoding.Default);
 
             Console.WriteLine("Please enter output file path or press Enter to output to console");
             var outputFilePath = Console.ReadLine();
@@ -86,7 +87,7 @@ namespace FormalLang5sem
             
             if (outputPath != "")
             {
-                System.IO.File.WriteAllText(outputPath, result);
+                File.WriteAllText(outputPath, result);
             }
             else
             {
