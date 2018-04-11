@@ -76,11 +76,17 @@ namespace FormalLang5sem.Solvers
         }
 
 
-        private void FindGraphAndGrammarIntersection(int automationState, int grammarState, string nonterminal)
+        private HashSet<(int, string, int)> FindGraphAndGrammarIntersection(int automationState, 
+                                                    int grammarState, string nonterminal)
         {
             var finalNodes = _grammar.FinalNodesOfNonterminals[nonterminal];
             var currAutomationState = automationState;
             var currGrammarState = grammarState;
+
+            // this set contains triplets (graphNode1, label, graphNode2)
+            // which are new paths which will be added to the automation (graph)
+            // graphNode1 is start node, graphNode2 — final
+            var newPaths = new HashSet<(int, string, int)>();
 
             // item in worklist contains (PAIR1, TOKEN, PAIR2), where
             // PAIR1 and PAIR2 are pairs (automationState, grammarState)
@@ -135,9 +141,20 @@ namespace FormalLang5sem.Solvers
                     var pair1 = (automationState, grammarState);
                     var pair2 = (currAutomationState, currGrammarState);
                     _matrix[pair1, pair2].Add(nonterminal);
+                    newPaths.Add((automationState, nonterminal, currAutomationState));
                 }
             } while (workList.Count > 0);
+
+            return newPaths;
         }
+
+
+        /// <summary>
+        /// this set contains triplets (graphNode1, label, graphNode2)
+        /// which are new paths which will be added to the automation (graph);
+        /// graphNode1 is start node, graphNode2 — final
+        /// </summary>
+        private HashSet<(int, string, int)> _newGraphPaths;
 
 
         /// <todo>
