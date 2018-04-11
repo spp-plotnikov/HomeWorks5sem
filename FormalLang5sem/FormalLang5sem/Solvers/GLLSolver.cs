@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using FormalLang5sem.Entities;
 using FormalLang5sem.Interfaces;
-using System.Runtime.CompilerServices;
 
 
-[assembly: InternalsVisibleTo("FormalLang5semTests")]
 namespace FormalLang5sem.Solvers
 {
     /// <summary>
     /// Based on GLL algorithm
     /// For more info read "GLL Parsing", Elizabeth Scott and Adrian Johnstone
     /// </summary>
-    internal class GLLSolver : ISolver
+    class GLLSolver : ISolver
     {
         public string Solve(Graph graph, Grammar grammar)
         {
