@@ -19,6 +19,7 @@ namespace FormalLang5sem.Solvers
             _result = string.Empty;
 
             BottomUp();
+            GenerateResults();
 
             return _result;
         }
@@ -169,6 +170,22 @@ namespace FormalLang5sem.Solvers
             {
                 _graph.AdjacencyList.Add(startNode, new List<(string, int)>() { (label, finalNode) });
                 return true;
+            }
+        }
+
+
+        private void GenerateResults()
+        {
+            foreach (var startNode in _graph.AdjacencyList.Keys)
+            {
+                foreach (var (label, finalNode) in _graph.AdjacencyList[startNode])
+                {
+                    if (_grammar.Nonterminals.Contains(label))
+                    {
+                        _result += startNode.ToString() + "," + label
+                                + "," + finalNode.ToString() + Environment.NewLine;
+                    }
+                }
             }
         }
     }
