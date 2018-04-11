@@ -1,0 +1,1 @@
+﻿Unblock-File build.ps1
