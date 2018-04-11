@@ -80,20 +80,21 @@ namespace FormalLang5sem.Solvers
 
         private void FloydWarshall()
         {
-            for (int k = 0; k < _matrixSize; k++)
+            var hasChanged = false;
+            do
             {
-                for (int i = 0; i < _matrixSize; i++)
+                hasChanged = false;
+                for (int k = 0; k < _matrixSize; k++)
                 {
-                    for (int j = 0; j < _matrixSize; j++)
+                    for (int i = 0; i < _matrixSize; i++)
                     {
-                        if (TransitiveClosure(i, j, k))
+                        for (int j = 0; j < _matrixSize; j++)
                         {
-                            FloydWarshall();
-                            return;
+                            hasChanged |= TransitiveClosure(i, j, k);
                         }
                     }
                 }
-            }
+            } while (hasChanged);
         }
 
 

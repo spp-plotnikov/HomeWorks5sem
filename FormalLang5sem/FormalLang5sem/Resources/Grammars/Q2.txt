@@ -1,0 +1,7 @@
+S : A C
+S : 3
+A : B C
+A : D C
+B : D A
+C : 3
+D : 4
