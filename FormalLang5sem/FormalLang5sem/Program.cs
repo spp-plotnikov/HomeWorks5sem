@@ -74,18 +74,18 @@ namespace FormalLang5sem
 
         private static void GenerateResult(string graphText, string grammarText, string outputPath)
         {
+            ISolver solver = AskUserAboutSolverType();
+
             var graph = new Graph(graphText);
-            var grammar = Grammar.FromSimpleFormat(grammarText);
+            bool isMatrixSolver = solver.GetType() == typeof(MatrixSolver);
+            var grammar = isMatrixSolver ? Grammar.FromSimpleFormat(grammarText)
+                                         : Grammar.FromDot(grammarText);
 
             if (!graph.IsParsable.Value || !grammar.IsParsable.Value)
             {
                 InformingAboutParsingErrors(graph, grammar);
                 return;
             }
-
-            ISolver solver = new MatrixSolver();
-            //ISolver solver = new GLLSolver();
-            //ISolver solver = new BottomUpSolver();
 
             var result = solver.Solve(graph, grammar);
             
@@ -99,6 +99,36 @@ namespace FormalLang5sem
             }
 
             Console.WriteLine();
+        }
+
+
+        private static ISolver AskUserAboutSolverType()
+        {
+            Console.WriteLine("Please choose an algorithm");
+            Console.WriteLine("Type \"gll\" to use GLL (Top-Down), \"m\" to matrix and \"bu\" to Bottom-Up");
+            var choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "gll":
+                {
+                    return new GLLSolver();
+                }
+                case "m":
+                {
+                    return new MatrixSolver();
+                }
+                case "bu":
+                {
+                    return new BottomUpSolver();
+                }
+                default:
+                {
+                    Console.WriteLine("Your input has not been recognized. " +
+                                      "By default, the GLL algorithm will be used.");
+                    return new GLLSolver();
+                }
+            }
         }
 
 

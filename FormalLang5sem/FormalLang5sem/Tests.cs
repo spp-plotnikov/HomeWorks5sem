@@ -58,11 +58,11 @@ namespace FormalLang5sem
                     var graphFile = "Resources\\Automata\\" + graphName + ".dot";
 
                     var graphDot = File.ReadAllText(graphFile, Encoding.Default);
-                    var grammarDot = File.ReadAllText(grammarFile, Encoding.Default);
+                    var grammarDotOrSimple = File.ReadAllText(grammarFile, Encoding.Default);
 
                     var graph = new Graph(graphDot);
-                    var grammar = isMatrixSolver ? Grammar.FromSimpleFormat(grammarDot) 
-                                                 : Grammar.FromDot(grammarDot);
+                    var grammar = isMatrixSolver ? Grammar.FromSimpleFormat(grammarDotOrSimple) 
+                                                 : Grammar.FromDot(grammarDotOrSimple);
 
                     var result = solver.Solve(graph, grammar);
                     var count = result.Split('S').Length - 1;  // count of triplets (i,S,j)
