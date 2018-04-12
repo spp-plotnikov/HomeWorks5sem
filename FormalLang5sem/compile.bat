@@ -1,3 +1,4 @@
+@cd/d "%~dp0"
 @echo off
 Powershell.exe -executionpolicy remotesigned -File  unblockFile.ps1
 Powershell.exe -executionpolicy remotesigned -File  build.ps1 -Configuration "Release"
