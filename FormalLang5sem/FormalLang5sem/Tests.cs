@@ -18,6 +18,7 @@ namespace FormalLang5sem
             SingleStateAutomationTest();
             SimpleTest();
             ABCTest();
+            LoopsTest();
             GLLSolverTest();
             BottomUpSolverTest();
             MatrixSolverTest();
@@ -27,6 +28,12 @@ namespace FormalLang5sem
         public void ABCTest()
         {
             StandardTest("abc", 1);
+        }
+
+
+        public void LoopsTest()
+        {
+            StandardTest("loops", 3);
         }
 
 

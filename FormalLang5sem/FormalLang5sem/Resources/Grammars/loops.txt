@@ -1,0 +1,10 @@
+S : A B
+A : a
+B : C D
+C : b
+D : x
+S : X Y
+X : x
+Y : U W
+U : y
+W : z

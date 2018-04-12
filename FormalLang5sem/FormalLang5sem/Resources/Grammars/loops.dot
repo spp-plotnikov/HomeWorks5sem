@@ -1,0 +1,14 @@
+digraph g
+{
+    rankdir = LR
+    0; 1; 2; 3; 4; 5;
+    0[label="S", color="green"]
+    3[label="S", shape="doublecircle"]
+
+    0 -> 1[label="x"]
+    1 -> 2[label="y"]
+    2 -> 3[label="z"]
+    0 -> 4[label="a"]
+    4 -> 5[label="b"]
+    5 -> 3[label="x"]
+}

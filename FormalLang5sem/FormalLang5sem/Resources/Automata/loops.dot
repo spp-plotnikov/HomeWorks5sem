@@ -1,0 +1,14 @@
+digraph g
+{
+    rankdir = LR
+    0; 1; 
+
+    0 -> 0[label="x"]
+    0 -> 0[label="y"]
+    0 -> 0[label="z"]
+    0 -> 1[label="y"]
+    1 -> 0[label="b"]
+    1 -> 1[label="z"]
+    1 -> 1[label="a"]
+    1 -> 1[label="c"]
+}
