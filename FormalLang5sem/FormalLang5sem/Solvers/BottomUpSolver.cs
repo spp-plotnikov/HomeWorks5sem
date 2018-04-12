@@ -119,18 +119,21 @@ namespace FormalLang5sem.Solvers
                             // next line means that tokens in grammar and in graph (automation) are the same
                             && _grammar.AdjacencyList[currGrammarState].Count(t => t.Item1 == token) != 0)
                         {
-                            var nextGrammarState = _grammar.AdjacencyList[currGrammarState]
-                                                           .First(t => t.Item1 == token)  // why only first??!!
-                                                           .Item2;  
-
-                            var tuple = ((currAutomationState, currGrammarState), 
-                                         token, 
-                                         (nextAutomationState, nextGrammarState));
-
-                            if (!history.Contains(tuple))
+                            var nextGrammarStates = _grammar.AdjacencyList[currGrammarState]
+                                                           .Where(t => t.Item1 == token)
+                                                           .Select(t => t.Item2);     
+                            
+                            foreach (var nextGrammarState in nextGrammarStates)
                             {
-                                workList.Push(tuple);
-                                history.Add(tuple);
+                                var tuple = ((currAutomationState, currGrammarState),
+                                             token,
+                                             (nextAutomationState, nextGrammarState));
+
+                                if (!history.Contains(tuple))
+                                {
+                                    workList.Push(tuple);
+                                    history.Add(tuple);
+                                }
                             }
                         }
                     }

@@ -1,0 +1,4 @@
+S : S X
+X : S S
+S : S S
+S : n
