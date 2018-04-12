@@ -15,6 +15,7 @@ namespace FormalLang5sem
     {
         public void RunAllTests()
         {
+            SingleStateAutomationTest();
             SimpleTest();
             ABCTest();
             GLLSolverTest();
@@ -71,6 +72,12 @@ namespace FormalLang5sem
         public void SimpleTest()
         {
             StandardTest("simple", 2);
+        }
+
+
+        public void SingleStateAutomationTest()
+        {
+            StandardTest("one_state", 1);
         }
 
 

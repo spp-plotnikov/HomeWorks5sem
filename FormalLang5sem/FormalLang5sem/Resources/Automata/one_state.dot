@@ -1,0 +1,7 @@
+digraph g
+{
+    rankdir = LR
+    0; 
+
+    0 -> 0[label="t"]
+}
