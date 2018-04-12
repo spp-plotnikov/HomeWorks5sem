@@ -16,19 +16,26 @@ namespace FormalLang5sem
         public void RunAllTests()
         {
             SimpleTest();
+            ABCTest();
             GLLSolverTest();
             BottomUpSolverTest();
             MatrixSolverTest();
         }
 
 
-        public void SimpleTest()
+        public void ABCTest()
         {
-            Console.WriteLine("Simple test:");
+            StandardTest("abc", 1);
+        }
 
-            var grammarFileDot = "Resources\\Grammars\\simple.dot";
-            var grammarFileSimple = "Resources\\Grammars\\simple.txt";
-            var graphFile = "Resources\\Automata\\simple.dot";
+
+        private void StandardTest(string testName, int correctCount)
+        {
+            Console.WriteLine("Test name: " + testName);
+
+            var grammarFileDot = "Resources\\Grammars\\" + testName + ".dot";
+            var grammarFileSimple = "Resources\\Grammars\\" + testName + ".txt";
+            var graphFile = "Resources\\Automata\\" + testName + ".dot";
 
             var graphDot = File.ReadAllText(graphFile, Encoding.Default);
             var grammarDot = File.ReadAllText(grammarFileDot, Encoding.Default);
@@ -50,13 +57,20 @@ namespace FormalLang5sem
             foreach (var result in all)
             {
                 var count = result.Split('S').Length - 1;  // count of triplets (i,S,j)
-                if (count != 2)
+                if (count != correctCount)
                 {
-                    Console.WriteLine("Simple test failed");
+                    Console.WriteLine("Test failed: " + testName + Environment.NewLine);
+                    return;
                 }
             }
-            Console.WriteLine("Simple test passed");
+            Console.WriteLine("Test passed: " + testName);
             Console.WriteLine();
+        }
+
+
+        public void SimpleTest()
+        {
+            StandardTest("simple", 2);
         }
 
 

@@ -32,7 +32,7 @@ namespace FormalLang5sem
             Console.WriteLine("This application solves the following problem:");
             Console.WriteLine("Input: 1) context-free grammar G = (Z, N, P),");
             Console.WriteLine("where Z - alphabet, N - nonterminals, P - production rules;");
-            Console.WriteLine("2) finite automaton (as graph) R = (E, V, L), whrere ");
+            Console.WriteLine("2) finite automaton (as graph) R = (E, V, L), where ");
             Console.WriteLine("E - edges, V - vertices, L is contained in Z, E = V x L x V;");
             Console.WriteLine("Output: all triplets (i, N[k], j), where i, j are elements of V");
             Console.WriteLine("and exists path p in R and N[k] in N: w(p) is an element of L(G, N[k]),");

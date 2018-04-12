@@ -1,0 +1,11 @@
+digraph g
+{
+    rankdir = LR
+    0; 1; 2; 3; 
+    0[label="S", color="green"]
+    3[label="S", shape="doublecircle"]
+
+    0 -> 1[label="a"]
+    1 -> 2[label="b"]
+    2 -> 3[label="c"]
+}
