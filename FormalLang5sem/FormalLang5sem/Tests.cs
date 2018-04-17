@@ -20,6 +20,7 @@ namespace FormalLang5sem
             ABCTest();
             LoopsTest();
             AmbiguousTest();
+            ABTest();
             GLLSolverTest();
             BottomUpSolverTest();
             MatrixSolverTest();
@@ -29,6 +30,12 @@ namespace FormalLang5sem
         public void ABCTest()
         {
             StandardTest("abc", 1);
+        }
+
+
+        public void ABTest()
+        {
+            StandardTest("a...ab", 6);
         }
 
 
